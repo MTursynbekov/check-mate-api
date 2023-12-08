@@ -8,6 +8,7 @@ import (
 type MessagesService interface {
 	//service methods
 	CreateMessage(msg *model.Message) error
+	GetMessages(chatId int) ([]*model.Message, error)
 }
 
 // service struct that implements Users store above
@@ -22,7 +23,13 @@ func NewMessagesService(s store.Store) MessagesService {
 }
 
 func (M *messagesService)CreateMessage(msg *model.Message)error{
-	err := M.store.CreateMessage(msg.Text, msg.SenderID, msg.ReceiverID)
+	err := M.store.CreateMessage(msg.Text, msg.SenderID, msg.ChatID)
 	
 	return err
+}
+
+func (M *messagesService)GetMessages(chatId int) ([]*model.Message, error){
+	messages, err := M.store.GetMessages(chatId)
+	
+	return messages, err
 }

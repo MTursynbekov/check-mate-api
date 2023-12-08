@@ -23,5 +23,6 @@ func main() {
 	userService := service.NewUserService(s)
 	messagesService := service.NewMessagesService(s)
 	server := app.NewServer(userService, messagesService)
+	server.Route()
 	server.Start(config.Get().Port)
 }
