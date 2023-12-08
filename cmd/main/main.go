@@ -20,7 +20,14 @@ func main() {
 	}
 
 	s := store.NewStore(db)
+
 	userService := service.NewUserService(s)
-	server := app.NewServer(userService)
-	server.Start(config.Get().Port)
+	migrationService := service.NewMigrationService(s)
+
+	server := app.NewServer(userService, migrationService)
+
+	err = server.Start(config.Get().Port)
+	if err != nil {
+		log.Fatalf("failed to start server: %s", err)
+	}
 }

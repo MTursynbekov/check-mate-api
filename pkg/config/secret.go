@@ -1,0 +1,3 @@
+package config
+
+const SECRET = "HAv7w7vtn2EIaGaVT0nrU9p4X09BpH6uHsHgl9TUr2s793r1tX3AfviWKDTSPxN889rM8ZdR17ptLBT8Gd5mgSLQ3X1d4Wiu9y1Hzl7iamtgYe9sU6aF0B1lwM8wTKeC"
