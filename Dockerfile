@@ -9,4 +9,4 @@ FROM alpine:3.9
 WORKDIR /root/
 COPY --from=builder /app .
 EXPOSE 8080
-CMD ./chek-mate
+CMD ./check-mate
