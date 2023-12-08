@@ -21,6 +21,7 @@ func main() {
 
 	s := store.NewStore(db)
 	userService := service.NewUserService(s)
-	server := app.NewServer(userService)
+	messagesService := service.NewMessagesService(s)
+	server := app.NewServer(userService, messagesService)
 	server.Start(config.Get().Port)
 }

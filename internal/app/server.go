@@ -9,9 +9,10 @@ import (
 type Server struct {
 	app         *fiber.App
 	userService service.UsersService
+	messagesService service.MessagesService
 }
 
-func NewServer(userService service.UsersService) *Server {
+func NewServer(userService service.UsersService, messagesService service.MessagesService) *Server {
 	app := fiber.New(fiber.Config{
 		BodyLimit: 20 * 1024 * 1024,
 	})
@@ -19,6 +20,7 @@ func NewServer(userService service.UsersService) *Server {
 	s := &Server{
 		app:         app,
 		userService: userService,
+		messagesService: messagesService,
 	}
 
 	return s
