@@ -38,9 +38,9 @@ func (s *Server) SignupHandler(c *fiber.Ctx) error {
 
 	hash, err := bcrypt.Generate(user.Password)
 	if err != nil {
-		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
 			"success": false,
-			"error":   "username is already busy",
+			"error":   err.Error(),
 		})
 	}
 
@@ -123,6 +123,6 @@ func getToken(id uint, username string) (string, error) {
 	claims["username"] = username
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
-	t, err := token.SignedString(config.SECRET)
+	t, err := token.SignedString([]byte(config.SECRET))
 	return t, err
 }
