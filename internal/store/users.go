@@ -1,6 +1,9 @@
 package store
 
-import "check-mate/internal/model"
+import (
+	"check-mate/internal/model"
+	"database/sql"
+)
 
 func (s *store) CreateUser(user *model.User) (uint, error) {
 	query := `
@@ -14,11 +17,14 @@ func (s *store) CreateUser(user *model.User) (uint, error) {
 }
 
 func (s *store) GetUser(username string) (*model.User, error) {
-	user := new(model.User)
+	var user model.User
 	query := `
 	select id, username, password from users
 	where username = $1`
-	err := s.db.Get(&user, query)
+	err := s.db.Get(&user, query, username)
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
 
-	return user, err
+	return &user, err
 }
