@@ -39,3 +39,22 @@ func (S *Server)GetMessages(c *fiber.Ctx) error{
 
 	return c.JSON(messages)
 }
+
+func (S *Server)CreateChat(c *fiber.Ctx) error{
+	chat := new(model.Chat)
+	reqBody := c.Request().Body()
+
+	err := json.Unmarshal(reqBody, &chat)
+	if err != nil{
+		log.Println("error while unmarshalling request")
+		return c.Status(400).SendString("invalid request")
+	}
+
+	err = S.messagesService.CreateChat(chat)
+	if err != nil{
+		log.Println("error while creating chat")
+		return c.Status(500).SendString("error while creating chat")
+	}
+
+	return c.JSON(chat)
+}
