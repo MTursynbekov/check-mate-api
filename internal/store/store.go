@@ -24,7 +24,7 @@ func NewStore(db *sqlx.DB) Store {
 
 func (s *store) Migrate() {
 	query := `
-	CREATE TABLE IF NOT EXISTS "User" (
+	CREATE TABLE IF NOT EXISTS users (
 		id SERIAL PRIMARY KEY,
 		username VARCHAR UNIQUE,
 		password VARCHAR,
