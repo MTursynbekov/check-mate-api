@@ -58,3 +58,22 @@ func (S *Server)CreateChat(c *fiber.Ctx) error{
 
 	return c.JSON(chat)
 }
+
+func (S *Server)CreateContact(c *fiber.Ctx) error{
+	contact := new(model.Contact)
+	reqBody := c.Request().Body()
+
+	err := json.Unmarshal(reqBody, &contact)
+	if err != nil{
+		log.Println("error while unmarshalling request")
+		return c.Status(400).SendString("invalid request")
+	}
+
+	err = S.messagesService.CreateContact(contact)
+	if err != nil{
+		log.Println("error while creating chat")
+		return c.Status(500).SendString("error while creating chat")
+	}
+
+	return c.JSON(contact)
+}

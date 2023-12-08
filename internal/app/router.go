@@ -1,7 +1,13 @@
 package app
 
 func (s *Server)Route(){
-	s.app.Post("/message", s.CreateMessage)
-	s.app.Get("/messages/:chatId", s.GetMessages)
-	s.app.Post("/chat", s.CreateChat)
+	api := s.app.Group("/api")
+
+	api.Post("/message", s.CreateMessage)
+	api.Get("/messages/:chatId", s.GetMessages)
+
+	api.Post("/chat", s.CreateChat)
+
+	api.Post("/contact", s.CreateContact)
+
 }
