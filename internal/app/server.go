@@ -30,10 +30,10 @@ func NewServer(userService service.UsersService, migrationService service.Migrat
 		app:         app,
 		userService: userService,
 		messagesService: messagesService,
-		migration: migrationService
+		migration: migrationService,
 	}
 
-	s.router()
+	s.Route()
 
 	s.migration = migrationService
 
