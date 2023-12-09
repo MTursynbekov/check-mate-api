@@ -56,7 +56,8 @@ func (s *store) Migrate() {
 		surname TEXT NOT NULL,
 		name TEXT NOT NULL,
 		relationship TEXT NOT NULL,
-		user_id INTEGER
+		user_id INTEGER,
+		reminder TEXT
 	   );
 	`
 
@@ -65,7 +66,7 @@ func (s *store) Migrate() {
 
 func (s *store)CreateMessage(text string, senderId, chatId int)error{
 	_, err := s.db.Exec(
-		`INSERT INTO messages (sender_id, chat_id, text)
+		`INSERT INTO messages (sender_id, chat_id, content)
 		VALUES ($1, $2, $3)`, senderId, chatId, text,
 	)
 

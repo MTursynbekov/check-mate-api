@@ -75,5 +75,5 @@ func (S *Server)CreateContact(c *fiber.Ctx) error{
 		return c.Status(500).SendString("error while creating chat")
 	}
 
-	return c.JSON(contact)
+	return c.SendString("success")
 }
