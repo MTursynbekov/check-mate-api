@@ -8,7 +8,7 @@ import (
 type ContactsService interface {
 	CreateContact(contact *model.Contact) error
 	GetContacts(userId int) ([]*model.Contact, error)
-	GetContact(userId, chatId int) (*model.Contact, error)
+	GetContact(userId, contactId int) (*model.Contact, error)
 }
 
 type contactService struct {
@@ -33,8 +33,8 @@ func (s *contactService) GetContacts(userId int) ([]*model.Contact, error) {
 	return contacts, err
 }
 
-func (s *contactService) GetContact(userId, chatId int) (*model.Contact, error) {
-	contact, err := s.store.GetContact(userId, chatId)
+func (s *contactService) GetContact(userId, contactId int) (*model.Contact, error) {
+	contact, err := s.store.GetContact(userId, contactId)
 
 	return contact, err
 }
