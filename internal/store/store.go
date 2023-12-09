@@ -7,10 +7,12 @@ import (
 )
 
 type Store interface {
-	CreateMessage(text string, senderId, chatId int)error
-	GetMessages(chatId int)([]*model.Message, error)
+	CreateMessage(text string, senderId, chatId int) error
+	GetMessages(chatId int) ([]*model.Message, error)
 	CreateChat(firstMemberId, secondMemberId int) error
-	CreateContact(name, surname, relationship string, userId int) error
+	CreateContact(contact *model.Contact) error
+	GetContacts(userId int) ([]*model.Contact, error)
+	GetContact(userId, chatId int) (*model.Contact, error)
 	Migrate()
 	CreateUser(user *model.User) (uint, error)
 	GetUser(username string) (*model.User, error)
@@ -57,13 +59,14 @@ func (s *store) Migrate() {
 		name TEXT NOT NULL,
 		relationship TEXT NOT NULL,
 		user_id INTEGER
+		reminder_time TIMESTAMP
 	   );
 	`
 
 	s.db.Exec(query)
 }
 
-func (s *store)CreateMessage(text string, senderId, chatId int)error{
+func (s *store) CreateMessage(text string, senderId, chatId int) error {
 	_, err := s.db.Exec(
 		`INSERT INTO messages (sender_id, chat_id, text)
 		VALUES ($1, $2, $3)`, senderId, chatId, text,
@@ -72,7 +75,7 @@ func (s *store)CreateMessage(text string, senderId, chatId int)error{
 	return err
 }
 
-func (s *store)GetMessages(chatId int)([]*model.Message, error){
+func (s *store) GetMessages(chatId int) ([]*model.Message, error) {
 	messages := []*model.Message{}
 
 	err := s.db.Select(&messages, `SELECT * FROM messages WHERE chat_id = $1`, chatId)
@@ -80,19 +83,10 @@ func (s *store)GetMessages(chatId int)([]*model.Message, error){
 	return messages, err
 }
 
-func (s *store)CreateChat(firstMemberId, secondMemberId int)error{
+func (s *store) CreateChat(firstMemberId, secondMemberId int) error {
 	_, err := s.db.Exec(
 		`INSERT INTO chats (first_member_id, second_member_id)
 		VALUES ($1, $2)`, firstMemberId, secondMemberId,
-	)
-
-	return err
-}
-
-func (s *store)CreateContact(name, surname, relationship string, userId int) error{
-	_, err := s.db.Exec(
-		`INSERT INTO contacts (name, surname, relationship, user_id)
-		VALUES ($1, $2, $3, $4)`, name, surname, relationship, userId,
 	)
 
 	return err
