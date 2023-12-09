@@ -24,7 +24,8 @@ func main() {
 	userService := service.NewUserService(s)
 	migrationService := service.NewMigrationService(s)
 	messagesService := service.NewMessagesService(s)
-	server := app.NewServer(userService, migrationService, messagesService)
+	contactService := service.NewContactService(s)
+	server := app.NewServer(userService, migrationService, contactService, messagesService)
 	server.Route()
 	err = server.Start(config.Get().Port)
 	if err != nil {

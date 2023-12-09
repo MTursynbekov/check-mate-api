@@ -10,13 +10,14 @@ import (
 )
 
 type Server struct {
-	app         *fiber.App
-	userService service.UsersService
-	migration   service.MigrationService
+	app             *fiber.App
+	userService     service.UsersService
+	migration       service.MigrationService
+	contactService  service.ContactsService
 	messagesService service.MessagesService
 }
 
-func NewServer(userService service.UsersService, migrationService service.MigrationService, messagesService service.MessagesService) *Server {
+func NewServer(userService service.UsersService, migrationService service.MigrationService, contactService service.ContactsService, messagesService service.MessagesService) *Server {
 	app := fiber.New(fiber.Config{
 		BodyLimit: 20 * 1024 * 1024,
 	})
@@ -27,15 +28,14 @@ func NewServer(userService service.UsersService, migrationService service.Migrat
 	}))
 
 	s := &Server{
-		app:         app,
-		userService: userService,
+		app:             app,
+		userService:     userService,
 		messagesService: messagesService,
-		migration: migrationService,
+		migration:       migrationService,
+		contactService:  contactService,
 	}
 
 	s.Route()
-
-	s.migration = migrationService
 
 	return s
 }

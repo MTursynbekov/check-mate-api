@@ -5,6 +5,7 @@ import (
 	"check-mate/pkg/bcrypt"
 	"check-mate/pkg/config"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -125,4 +126,38 @@ func getToken(id uint, username string) (string, error) {
 
 	t, err := token.SignedString([]byte(config.SECRET))
 	return t, err
+}
+
+func (s *Server) GetContactsHandler(c *fiber.Ctx) error {
+	userIdString := c.Params("userId")
+	userId, _ := strconv.Atoi(userIdString)
+
+	contacts, err := s.contactService.GetContacts(userId)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"contacts": contacts,
+	})
+}
+
+func (s *Server) GetContactHandler(c *fiber.Ctx) error {
+	userIdString := c.Params("userId")
+	userId, _ := strconv.Atoi(userIdString)
+	contactidString := c.Params("chatId")
+	chatId, _ := strconv.Atoi(contactidString)
+
+	contacts, err := s.contactService.GetContact(userId, chatId)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"contact": contacts,
+	})
 }

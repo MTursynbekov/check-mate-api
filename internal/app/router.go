@@ -1,6 +1,6 @@
 package app
 
-func (s *Server)Route(){
+func (s *Server) Route() {
 	s.app.Post("/signup", s.SignupHandler)
 	s.app.Post("/signin", s.SigninHandler)
 
@@ -11,6 +11,6 @@ func (s *Server)Route(){
 
 	api.Post("/chat", s.CreateChat)
 
-	api.Post("/contact", s.CreateContact)
+	api.Post("/contacts", s.CreateContact)
 
 }
