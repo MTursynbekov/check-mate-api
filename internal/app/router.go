@@ -10,6 +10,8 @@ func (s *Server) Route() {
 	api.Get("/messages/:chatId", s.GetMessages)
 
 	api.Post("/chat", s.CreateChat)
+	api.Get("/chats/:userId", s.GetChat)
+	
 	api.Get("/users/:userId/contacts", s.GetContactsHandler)
 	api.Get("/users/:userId/contacts/:contactId", s.GetContactHandler)
 

@@ -10,6 +10,7 @@ type MessagesService interface {
 	CreateMessage(msg *model.Message) error
 	GetMessages(chatId int) ([]*model.Message, error)
 	CreateChat(chat *model.Chat) error
+	GetChat(id int) ([]*model.Chat, error)
 }
 
 // service struct that implements Users store above
@@ -39,4 +40,10 @@ func (M *messagesService) CreateChat(chat *model.Chat) error {
 	err := M.store.CreateChat(chat.FirstMemberID, chat.SecondMemberID)
 
 	return err
+}
+
+func (M *messagesService) GetChat(id int) ([]*model.Chat, error) {
+	chats, err := M.store.GetChat(id)
+
+	return chats, err
 }

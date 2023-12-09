@@ -59,6 +59,18 @@ func (s *Server) CreateChat(c *fiber.Ctx) error {
 	return c.JSON(chat)
 }
 
+func (s *Server) GetChat(c *fiber.Ctx) error{
+	userId := c.Params("userId")
+	id, _ := strconv.Atoi(userId)
+
+	chats, err := s.messagesService.GetChat(id)
+	if err != nil{
+		return c.Status(500).SendString("error while getting chats")
+	}
+
+	return c.JSON(chats)
+}
+
 func (s *Server) CreateContact(c *fiber.Ctx) error {
 	contact := new(model.Contact)
 	reqBody := c.Request().Body()

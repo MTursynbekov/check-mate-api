@@ -10,6 +10,7 @@ type Store interface {
 	CreateMessage(text string, senderId, chatId int) error
 	GetMessages(chatId int) ([]*model.Message, error)
 	CreateChat(firstMemberId, secondMemberId int) error
+	GetChat(id int) ([]*model.Chat, error)
 	CreateContact(contact *model.Contact) error
 	GetContacts(userId int) ([]*model.Contact, error)
 	GetContact(userId, contactId int) (*model.Contact, error)
@@ -90,4 +91,12 @@ func (s *store) CreateChat(firstMemberId, secondMemberId int) error {
 	)
 
 	return err
+}
+
+func (s *store) GetChat(id int) ([]*model.Chat, error){
+	chats := []*model.Chat{}
+
+	err := s.db.Select(&chats, `SELECT * FROM chats WHERE first_member_id = $1`, id)
+
+	return chats, err
 }
