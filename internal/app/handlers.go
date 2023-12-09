@@ -147,10 +147,10 @@ func (s *Server) GetContactsHandler(c *fiber.Ctx) error {
 func (s *Server) GetContactHandler(c *fiber.Ctx) error {
 	userIdString := c.Params("userId")
 	userId, _ := strconv.Atoi(userIdString)
-	contactidString := c.Params("chatId")
-	chatId, _ := strconv.Atoi(contactidString)
+	contactidString := c.Params("contactId")
+	contactId, _ := strconv.Atoi(contactidString)
 
-	contacts, err := s.contactService.GetContact(userId, chatId)
+	contacts, err := s.contactService.GetContact(userId, contactId)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
 			"error": err.Error(),

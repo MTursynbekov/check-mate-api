@@ -12,7 +12,7 @@ type Store interface {
 	CreateChat(firstMemberId, secondMemberId int) error
 	CreateContact(contact *model.Contact) error
 	GetContacts(userId int) ([]*model.Contact, error)
-	GetContact(userId, chatId int) (*model.Contact, error)
+	GetContact(userId, contactId int) (*model.Contact, error)
 	Migrate()
 	CreateUser(user *model.User) (uint, error)
 	GetUser(username string) (*model.User, error)

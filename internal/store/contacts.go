@@ -26,13 +26,13 @@ func (s *store) GetContacts(userId int) ([]*model.Contact, error) {
 	return contacts, err
 }
 
-func (s *store) GetContact(userId, chatId int) (*model.Contact, error) {
+func (s *store) GetContact(userId, contactId int) (*model.Contact, error) {
 	var contact model.Contact
 	query := `
 	SELECT * FROM contacts
 	WHERE user_id = $1 and id = $2`
 
-	err := s.db.Get(&contact, query, userId, chatId)
+	err := s.db.Get(&contact, query, userId, contactId)
 
 	if err == sql.ErrNoRows {
 		return nil, nil
