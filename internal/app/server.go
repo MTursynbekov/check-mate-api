@@ -5,6 +5,7 @@ import (
 	"check-mate/pkg/config"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	jwtware "github.com/gofiber/jwt/v2"
 )
@@ -22,6 +23,11 @@ func NewServer(userService service.UsersService, migrationService service.Migrat
 		BodyLimit: 20 * 1024 * 1024,
 	})
 
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*", // Replace with your frontend's URL
+		AllowHeaders: "Origin, Content-Type, Accept",
+		AllowMethods: "GET,POST,HEAD,PUT,DELETE,PATCH",
+	}))
 	app.Use(logger.New())
 	app.Use("/api/", jwtware.New(jwtware.Config{
 		SigningKey: []byte(config.SECRET),
