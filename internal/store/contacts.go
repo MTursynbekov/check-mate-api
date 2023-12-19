@@ -7,14 +7,14 @@ import (
 
 func (s *store) CreateContact(contact *model.Contact) (int, error) {
 	query := `
-	INSERT INTO contacts (name, surname, relationship, user_id, reminder_time)
-	VALUES ($1, $2, $3, $4, $5)`
+	INSERT INTO contacts (name, surname, relationship, user_id, reminder_time, birthday)
+	VALUES ($1, $2, $3, $4, $5, $6)`
 
-	_, err := s.db.Exec(query, contact.Name, contact.Surname, contact.Relationship, contact.UserID, contact.ReminderTime)
+	_, err := s.db.Exec(query, contact.Name, contact.Surname, contact.Relationship, contact.UserID, contact.ReminderTime, contact.Birthday)
 	if err != nil {
 		return -1, err
 	}
-	
+
 	query = `
 	SELECT id FROM contacts
 	ORDER BY id DESC

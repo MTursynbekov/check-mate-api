@@ -9,4 +9,5 @@ type Contact struct {
 	Relationship string    `json:"relationship" db:"relationship"`
 	UserID       int       `json:"userId" db:"user_id"`
 	ReminderTime time.Time `json:"reminder" db:"reminder_time"`
+	Birthday     time.Time `json:"birthday" db:"birthday"`
 }

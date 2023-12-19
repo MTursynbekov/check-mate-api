@@ -63,6 +63,7 @@ func (s *store) Migrate() {
 		relationship TEXT NOT NULL,
 		user_id INTEGER,
 		reminder_time TIMESTAMP
+		birthday TIMESTAMP
 	   );
 	`
 
