@@ -6,7 +6,7 @@ import (
 )
 
 type ContactsService interface {
-	CreateContact(contact *model.Contact) error
+	CreateContact(contact *model.Contact) (int, error)
 	GetContacts(userId int) ([]*model.Contact, error)
 	GetContact(userId, contactId int) (*model.Contact, error)
 	UpdateContact(contact *model.Contact) error
@@ -23,10 +23,10 @@ func NewContactService(s store.Store) ContactsService {
 	}
 }
 
-func (s *contactService) CreateContact(contact *model.Contact) error {
-	err := s.store.CreateContact(contact)
+func (s *contactService) CreateContact(contact *model.Contact) (int, error) {
+	id, err := s.store.CreateContact(contact)
 
-	return err
+	return id, err
 }
 
 func (s *contactService) GetContacts(userId int) ([]*model.Contact, error) {

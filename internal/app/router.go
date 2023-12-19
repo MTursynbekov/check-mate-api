@@ -16,5 +16,6 @@ func (s *Server) Route() {
 	api.Get("/users/:userId/contacts/:contactId", s.GetContactHandler)
 
 	api.Post("/contacts", s.CreateContact)
+	api.Get("/contacts/:id", s.GetContacts)
 
 }

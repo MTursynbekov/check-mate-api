@@ -11,7 +11,7 @@ type Store interface {
 	GetMessages(chatId int) ([]*model.Message, error)
 	CreateChat(firstMemberId, secondMemberId int) error
 	GetChat(id int) ([]*model.Chat, error)
-	CreateContact(contact *model.Contact) error
+	CreateContact(contact *model.Contact) (int, error)
 	GetContacts(userId int) ([]*model.Contact, error)
 	GetContact(userId, contactId int) (*model.Contact, error)
 	UpdateContact(contact *model.Contact) error
