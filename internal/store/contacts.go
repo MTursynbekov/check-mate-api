@@ -5,18 +5,32 @@ import (
 	"database/sql"
 )
 
-func (s *store) CreateContact(contact *model.Contact) error {
+func (s *store) CreateContact(contact *model.Contact) (int, error) {
 	query := `
 	INSERT INTO contacts (name, surname, relationship, user_id, reminder_time)
 	VALUES ($1, $2, $3, $4, $5)`
 
 	_, err := s.db.Exec(query, contact.Name, contact.Surname, contact.Relationship, contact.UserID, contact.ReminderTime)
+	if err != nil {
+		return -1, err
+	}
+	
+	query = `
+	SELECT id FROM contacts
+	ORDER BY id DESC
+	LIMIT 1
+	`
 
-	return err
+	var id int
+
+	row := s.db.QueryRow(query)
+	row.Scan(&id)
+
+	return id, err
 }
 
 func (s *store) GetContacts(userId int) ([]*model.Contact, error) {
-	contacts := make([]*model.Contact, 0)
+	var contacts []*model.Contact
 	query := `
 	SELECT * FROM contacts
 	WHERE user_id = $1`

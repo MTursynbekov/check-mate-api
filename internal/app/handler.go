@@ -81,11 +81,25 @@ func (s *Server) CreateContact(c *fiber.Ctx) error {
 		return c.Status(400).JSON(err.Error())
 	}
 
-	err = s.contactService.CreateContact(contact)
+	id, err := s.contactService.CreateContact(contact)
 	if err != nil {
 		log.Println("error while creating contact")
 		return c.Status(500).JSON(err)
 	}
 
-	return c.SendString("success")
+	return c.JSON(fiber.Map{
+		"id": id,
+	})
+}
+
+func (s *Server) GetContacts(c *fiber.Ctx) error {
+	userId := c.Params("id")
+	id, _ := strconv.Atoi(userId)
+
+	contacts, err := s.contactService.GetContacts(id)
+	if err != nil{
+		c.Status(500).SendString("error getting contacts: " + err.Error())
+	}
+
+	return c.JSON(contacts)
 }
