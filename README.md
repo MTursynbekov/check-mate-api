@@ -16,10 +16,8 @@ Backend is written in Golang. <br>
 
 - POST /signup 
 - POST /signin
-<br>
 - POST /contacts 
 - GET /contacts/:id
-<br>
 - POST /chat
 - GET /chat/:id
 - GET /users/:userId/contacts Get all contacts of user
