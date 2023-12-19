@@ -161,3 +161,42 @@ func (s *Server) GetContactHandler(c *fiber.Ctx) error {
 		"contact": contacts,
 	})
 }
+
+func (s *Server) UpdateContactHandler(c *fiber.Ctx) error {
+	contact := new(model.Contact)
+	if err := c.BodyParser(&contact); err != nil {
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"error":   err.Error(),
+		})
+	}
+
+	err := s.contactService.UpdateContact(contact)
+	if err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
+			"success": false,
+			"error":   err.Error(),
+		})
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"success": true,
+	})
+}
+
+func (s *Server) DeleteContactHandler(c *fiber.Ctx) error {
+	contactIdString := c.Params("contactId")
+	contactId, _ := strconv.Atoi(contactIdString)
+
+	err := s.contactService.DeleteContact(contactId)
+	if err != nil {
+		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
+			"success": false,
+			"error":   err.Error(),
+		})
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"success": true,
+	})
+}

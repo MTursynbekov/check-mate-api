@@ -9,6 +9,8 @@ type ContactsService interface {
 	CreateContact(contact *model.Contact) error
 	GetContacts(userId int) ([]*model.Contact, error)
 	GetContact(userId, contactId int) (*model.Contact, error)
+	UpdateContact(contact *model.Contact) error
+	DeleteContact(contactId int) error
 }
 
 type contactService struct {
@@ -37,4 +39,14 @@ func (s *contactService) GetContact(userId, contactId int) (*model.Contact, erro
 	contact, err := s.store.GetContact(userId, contactId)
 
 	return contact, err
+}
+
+func (s *contactService) UpdateContact(contact *model.Contact) error {
+	err := s.store.UpdateContact(contact)
+	return err
+}
+
+func (s *contactService) DeleteContact(contactId int) error {
+	err := s.store.DeleteContact(contactId)
+	return err
 }
